@@ -8,6 +8,8 @@
     <title>Friend Finder</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
+        integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -20,13 +22,13 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
             </div>
-            <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" id="name" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         <h4>Link to Photo Image (Required)</h4>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
             </div>
-            <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" id="photo" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         <br>
         <hr class="my-4">
@@ -169,7 +171,7 @@
             </select>
         </div>
         <br>
-        <button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
         <br>
         <br>
     </div>
@@ -182,6 +184,45 @@
             </p>
         </div>
     </footer>
+
+    <script type="text/javascript">
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+
+            function validate() {
+                var valid = true;
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        valid = false;
+                    }
+                });
+            }
+            if (validate()) {
+                var data = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        $("#question1").val(),
+                        $("#question2").val(),
+                        $("#question3").val(),
+                        $("#question4").val(),
+                        $("#question5").val(),
+                        $("#question6").val(),
+                        $("#question7").val(),
+                        $("#question8").val(),
+                        $("#question9").val(),
+                        $("#question10").val(),
+                    ]
+                };
+                $.post("/api/friends", data, function (data) {
+
+                });
+            } else {
+                alert("Enter information into all fields.")
+            }
+        })
+    </script>
+
 </body>
 
 </html>
